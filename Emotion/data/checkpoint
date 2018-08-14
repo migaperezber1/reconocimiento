@@ -1,0 +1,2 @@
+model_checkpoint_path: "C:\\Users\\Alejo\\Desktop\\Proyecto\\emotion-recognition-neural-networks-master\\data\\Gudi_model_100_epochs_20000_faces"
+all_model_checkpoint_paths: "C:\\Users\\Alejo\\Desktop\\Proyecto\\emotion-recognition-neural-networks-master\\data\\Gudi_model_100_epochs_20000_faces"
