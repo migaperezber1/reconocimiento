@@ -266,6 +266,7 @@ while True:
         cv2.putText(frame, text, (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 255), 1)
         
 # CONTADOR
+
   #      stext = str(text)
 #        if stext == 'Feliz':
  #           print( "=D")
