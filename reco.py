@@ -29,13 +29,12 @@ recognizer_edad = cv2.face.LBPHFaceRecognizer_create()
 print("creado_edad")
 recognizer_edad.read("edad.yml")
 
-subjects_edad = ["adulto" , "joven", "viejo","nino" ]}
+subjects_edad = ["adulto" , "joven", "viejo","nino" ]
 
 #################
-cascade_classifier = cv2.CascadeClassifier(CASC_PATH)
+cascade_classifier = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 #font = cv2.FONT_HERSHEY_SIMPLEX
-network = EmotionRecognition()
-network.build_network()
+
 #Cambiar a 1 para la rasp
 video_capture = cv2.VideoCapture(0)
 feelings_faces = []
@@ -198,9 +197,9 @@ def format_image(image):
    
     return image
 
-#############################################
 
-
+network = EmotionRecognition()
+network.build_network()
 
 
 while True:
@@ -214,7 +213,8 @@ while True:
     
     ret, test_img1 = video_capture.read()
 
-  
+   
+   
    
     print("Predicting images...")
 
@@ -230,7 +230,7 @@ while True:
 
 
 
-    cv2.imshow('Video', frame)
+    
 
     if cv2.waitKey(0) & 0xFF == ord('q'):
         break
@@ -239,4 +239,3 @@ while True:
 video_capture.release()
 cv2.destroyAllWindows()
 
-"""
