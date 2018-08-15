@@ -126,28 +126,9 @@ while True:
     for index, emotion in enumerate(EMOTIONS):
 
             feelings_faces.append(cv2.imread(emotion, -1))
-
-
-    # Capture frame-by-frame
     
     ret, frame = video_capture.read()
-
-    # Predict result with network
-    #result = network.predict(format_image(frame))
-
-
-    # Write results in frame
-    
-        
-
-#        face_image = feelings_faces[np.argmax(result[0])]
-
- #       text = EMOTIONS[np.argmax(result[0])]
-
-  #      cv2.putText(frame, text, (face[0], face[1]), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 255), 3)
-                
-   #     x, y, w, h = face
-    #    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+ 
     faces = cascade_classifier.detectMultiScale(
         frame,
         scaleFactor=1.1,
@@ -171,8 +152,7 @@ while True:
  #           print( "=D")
  #       except Exception:
   #          print("[+] Problem during resize")
-                    
-    # Display the resulting frame
+
     cv2.imshow('Video', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
