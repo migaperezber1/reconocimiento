@@ -97,10 +97,13 @@ def predict(test_img):
         #get name of respective label returned by face recognizer
         label_text_gen = subjects_gen[label_gen[0]]
         label_text_edad = subjects_edad[label_edad[0]]
+        result = network.predict(format_image(img))
+        
+        text_emo = EMOTIONS[np.argmax(result)]
         #draw a rectangle around face detected
         draw_rectangle(img, rect)
         #draw name of predicted person
-        draw_text(img, label_text_gen+" "+label_text_edad, rect[0], rect[1]-5)
+        draw_text(img, label_text_gen+" "+label_text_edad+" "+text_emo, rect[0], rect[1]-5)
         
     return img
 ############################################
@@ -197,27 +200,8 @@ def format_image(image):
 
 #############################################
 
-print("Predicting images...")
-
-#load test images
-test_img1 =cv2.imread('familia.jpg',1)
 
 
-#perform a prediction
-predicted_img1 = predict(test_img1)
-print("imagen lista")
-
-cv2.imshow('img',predicted_img1 )
-
-cv2.waitKey(0)      
-    
-cap.release()
-
-cv2-destroyAllWindows()
-
-
-
-"""
 
 while True:
 
@@ -227,56 +211,28 @@ while True:
             feelings_faces.append(cv2.imread(emotion, -1))
 
 
-    # Capture frame-by-frame
     
-    ret, frame = video_capture.read()
+    ret, test_img1 = video_capture.read()
 
-    # Predict result with network
-    #result = network.predict(format_image(frame))
+  
+   
+    print("Predicting images...")
 
 
-    # Write results in frame
-    
-        
 
-#        face_image = feelings_faces[np.argmax(result[0])]
 
- #       text = EMOTIONS[np.argmax(result[0])]
+#perform a prediction
+    predicted_img1 = predict(test_img1)
+    print("imagen lista")
 
-  #      cv2.putText(frame, text, (face[0], face[1]), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 255), 3)
-                
-   #     x, y, w, h = face
-    #    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    faces = cascade_classifier.detectMultiScale(
-        frame,
-        scaleFactor=1.1,
-        minNeighbors=5
-    )
+    cv2.imshow('img',predicted_img1 )
 
-    for face in faces:
 
-        (x, y, w, h) = face
 
-        cv2.rectangle(frame, (x,y), (x+w,y+h), (255,0,0), 2)
-            #print(x, y, w, h)        
-        result = network.predict(format_image(frame))
-        
-        text = EMOTIONS[np.argmax(result)]
-        #print(result, text)
-        cv2.putText(frame, text, (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 255), 1)
-        
-# CONTADOR
 
-  #      stext = str(text)
-#        if stext == 'Feliz':
- #           print( "=D")
- #       except Exception:
-  #          print("[+] Problem during resize")
-                    
-    # Display the resulting frame
     cv2.imshow('Video', frame)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(0) & 0xFF == ord('q'):
         break
 
 # When everything is done, release the capture
