@@ -5,6 +5,19 @@ import os, sys
 #import numpy to convert python lists to numpy arrays as 
 #it is needed by OpenCV face recognizers
 import numpy as np
+import re
+import tflearn
+from tflearn.layers.core import input_data, dropout, fully_connected, flatten
+from tflearn.layers.conv import conv_2d, max_pool_2d, avg_pool_2d
+from tflearn.layers.merge_ops import merge
+from tflearn.layers.normalization import local_response_normalization
+from tflearn.layers.estimator import regression
+from os.path import isfile, join
+import random
+from constants import *
+from PIL import Image, ImageDraw, ImageFont
+global face, faces
+import time
 
 recognizer_gen = cv2.face.LBPHFaceRecognizer_create()
 print("creado_genero")
