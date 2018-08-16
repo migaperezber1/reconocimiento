@@ -32,12 +32,6 @@ recognizer_edad.read("edad.yml")
 subjects_edad = ["adulto" , "joven", "viejo","nino" ]
 
 #################
-cascade_classifier = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-#font = cv2.FONT_HERSHEY_SIMPLEX
-
-#Cambiar a 1 para la rasp
-video_capture = cv2.VideoCapture(0)
-feelings_faces = []
 
 
 #####################
@@ -154,6 +148,19 @@ class EmotionRecognition:
 
 ####################################
 
+
+cascade_classifier = cv2.CascadeClassifier(CASC_PATH)
+font = cv2.FONT_HERSHEY_SIMPLEX
+# network de la clase Emotion recognition 
+network = EmotionRecognition()
+# Se construye el reconocimiento 
+network.build_network()
+video_capture = cv2.VideoCapture(0)
+# Matriz donde se guarda la emoción detectada 
+feelings_faces = []
+
+
+####################################
 def format_image(image):
     global face, faces
         
@@ -198,9 +205,6 @@ def format_image(image):
     return image
 
 
-network = EmotionRecognition()
-network.build_network()
-
 
 while True:
 
@@ -208,34 +212,43 @@ while True:
     for index, emotion in enumerate(EMOTIONS):
 
             feelings_faces.append(cv2.imread(emotion, -1))
+    # Capture frame-by-frame  
+    ret, frame = video_capture.read()
 
+  
+    faces = cascade_classifier.detectMultiScale(
+        frame,
+        scaleFactor=1.1,
+        minNeighbors=5
+    )
 
-    
-    ret, test_img1 = video_capture.read()
+    for face in faces:
 
-   
-   
-   
-    print("Predicting images...")
+        (x, y, w, h) = face
 
+        cv2.rectangle(frame, (x,y), (x+w,y+h), (255,0,0), 2)
+            #print(x, y, w, h)    
+              # Predict result with network    
+        result = network.predict(format_image(frame))
+        
+        text = EMOTIONS[np.argmax(result)]
+        #print(result, text)
 
+    # Write results in frame
+        cv2.putText(frame, text, (x, y), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 255), 1)"
+"""
+        stext = str(text)
+        if stext == 'Feliz':
+            print( "=D")
+        except Exception:
+            print("[+] Problem during resize")
+ """                   
+    # Display the resulting frame
+    cv2.imshow('Video', frame)
 
-
-#perform a prediction
-    predicted_img1 = predict(test_img1)
-    print("imagen lista")
-
-    cv2.imshow('img',predicted_img1 )
-
-
-
-
-    
-
-    if cv2.waitKey(0) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 # When everything is done, release the capture
 video_capture.release()
 cv2.destroyAllWindows()
-
