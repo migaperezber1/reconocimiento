@@ -109,7 +109,7 @@ def predict(test_img):
 		#draw name of predicted person
 		draw_text(img, label_text_gen+" "+label_text_edad+" "+text_emo, rect[0], rect[1]-5)
 					 
-		return img
+	return img
 ############################################
 class EmotionRecognition:
 
